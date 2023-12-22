@@ -1,27 +1,51 @@
-import { View, Text, StyleSheet, SafeAreaView, Pressable } from 'react-native'
+import {
+    View,
+    Text,
+    StyleSheet,
+    SafeAreaView,
+    Pressable
+} from 'react-native'
 import React, { useState } from 'react'
 import { Link, Stack, router } from 'expo-router'
 import { FontAwesome5 } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
+import {
+    GestureDetector,
+    Gesture,
+    Directions
+} from 'react-native-gesture-handler';
+import Animated, {
+    FadeIn,
+    FadeOut,
+    BounceInRight,
+    BounceInLeft,
+    SlideInLeft,
+    SlideOutRight,
+    SlideInRight,
+    SlideOutLeft
+} from 'react-native-reanimated';
+
 
 const onboardingSteps = [
     {
         icon: 'laptop-house',
-        title: 'Welcome #Daddy',
-        description: 'Here you can see some projects I worked or I am currently working on',
+        title: 'Bienvenue chez Daddy!',
+        description: `Ici vous pouvez voir quelques projets sur lesquels j'ai travaillé ou sur lesquels je travaille actuellement`,
 
     },
     {
-        icon: 'chalkboard-teacher',
-        title: 'Learn and grow together',
-        description: 'I learn by building projects with React Native and Expo',
+        icon: 'book-reader',
+        title: 'Apprendre et grandir',
+        description: `J'apprends en développant des projets avec React Native et Expo`,
 
     },
     {
-        icon: 'folder-open',
-        title: 'Personal Portfolio',
-        description: 'Here I am displaying my knowledge and skills through my different project ',
+        icon: 'react',
+        title: 'Portfolio React Native',
+        description: `Ici, j'expose mes connaissances et compétences en React Native à travers mes différents projets`,
 
     },
+
 
 ]
 
@@ -40,42 +64,89 @@ export default function OnboardingScreen() {
         }
     };
 
+    const onBack = () => {
+        const isFirstScreen = screenIndex === 0
+        if (isFirstScreen) {
+            endOnboarding();
+
+        } else {
+            setScreenIndex(screenIndex - 1);
+        }
+    };
+
     const endOnboarding = () => {
         setScreenIndex(0);
         router.back();
-    }
+    };
+
+    const swipes = Gesture.Simultaneous(
+        Gesture.Fling().direction(Directions.LEFT).onEnd(onContinue),
+        Gesture.Fling().direction(Directions.RIGHT).onEnd(onBack)
+    );
+
 
     return (
         <SafeAreaView style={style.page}>
             <Stack.Screen options={{ headerShown: false }} />
+            <StatusBar style="light" />
+            <View style={style.stepIndicatorContainer}>
+                {onboardingSteps.map((step, index) => (
+                    <View 
+                    key={index}
+                    style={[
+                        style.stepIndicator, 
+                        { backgroundColor: index === screenIndex ? '#CEF202' : 'grey' }]} />
+                ))}
 
-            <View style={style.pageContent}>
+            </View>
+
+            <GestureDetector gesture={swipes}>
+                <View
+
+                    style={style.pageContent}
+                    key={screenIndex}
+                >
+
+                    <Animated.View entering={FadeIn} exiting={FadeOut}>
+                        <FontAwesome5
+                            style={style.image}
+                            name={data.icon}
+                            size={150}
+                            color="#CEF205"
+                        />
+                    </Animated.View>
+
+                    <View style={style.footer}>
+                        <Animated.Text
+                            entering={SlideInRight}
+                            exiting={SlideOutLeft}
+                            style={style.title}
+                        >
+                            {data.title}
+                        </Animated.Text>
+                        <Animated.Text
+                            entering={SlideInRight.delay(50)}
+                            exiting={SlideOutLeft}
+                            style={style.description}
+                        >
+                            {data.description}
+                        </Animated.Text>
+
+                        <View style={style.buttonsRow}>
+                            <Text onPress={endOnboarding} style={style.buttonText}>Passer</Text>
+
+                            <Pressable onPress={onContinue} style={style.button}>
+                                <Text style={style.buttonText}>Continuer</Text>
+                            </Pressable>
 
 
-                <FontAwesome5
-                    style={style.image}
-                    name={data.icon}
-                    size={100}
-                    color="#CEF205"
-                />
-                <View style={style.footer}>
-                    <Text style={style.title}>{data.title}</Text>
-                    <Text style={style.description}>{data.description}</Text>
 
-                    <View style={style.buttonsRow}>
-                        <Text onPress={endOnboarding} style={style.buttonText}>Skip</Text>
-
-                        <Pressable onPress={onContinue} style={style.button}>
-                            <Text style={style.buttonText}>Continue</Text>
-                        </Pressable>
-
-
+                        </View>
 
                     </View>
 
                 </View>
-
-            </View>
+            </GestureDetector>
 
 
 
@@ -96,9 +167,25 @@ const style = StyleSheet.create({
         flex: 1,
 
     },
+    //steps
+    stepIndicatorContainer: {
+        flexDirection: 'row',
+        //gap:8,
+        marginHorizontal: 15,
+
+    },
+    stepIndicator: {
+        flex: 1,
+        height: 3,
+        backgroundColor: 'gray',
+        margin: 5,
+        borderRadius: 10,
+
+    },
     image: {
         alignSelf: 'center',
         margin: 20,
+        marginTop: 70,
     },
     title: {
         color: '#FDFDFD',

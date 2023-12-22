@@ -9,6 +9,7 @@ import {
 } from "@expo-google-fonts/inter";
 import {AmaticSC_400Regular, AmaticSC_700Bold} from '@expo-google-fonts/amatic-sc';
 import * as SplashScreen from "expo-splash-screen";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function RootLayout() {
     const [fontsLoaded, fontError] = useFonts({
@@ -31,12 +32,14 @@ export default function RootLayout() {
       }
     
     return (
-        <Stack 
+        <GestureHandlerRootView style={{flex:1}}>
+          <Stack 
           screenOptions={{
           }} 
         >
             <Stack.Screen name='index' options={{title: "DEVember"}} />
         </Stack>
+        </GestureHandlerRootView>
     );
     
 }
