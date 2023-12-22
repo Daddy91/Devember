@@ -1,9 +1,50 @@
 import { View, Text, StyleSheet, SafeAreaView, Pressable } from 'react-native'
-import React from 'react'
-import { Stack } from 'expo-router'
+import React, { useState } from 'react'
+import { Link, Stack, router } from 'expo-router'
 import { FontAwesome5 } from '@expo/vector-icons';
 
+const onboardingSteps = [
+    {
+        icon: 'laptop-house',
+        title: 'Welcome #Daddy',
+        description: 'Here you can see some projects I worked or I am currently working on',
+
+    },
+    {
+        icon: 'chalkboard-teacher',
+        title: 'Learn and grow together',
+        description: 'I learn by building projects with React Native and Expo',
+
+    },
+    {
+        icon: 'folder-open',
+        title: 'Personal Portfolio',
+        description: 'Here I am displaying my knowledge and skills through my different project ',
+
+    },
+
+]
+
 export default function OnboardingScreen() {
+    const [screenIndex, setScreenIndex] = useState(0);
+
+    const data = onboardingSteps[screenIndex];
+
+    const onContinue = () => {
+        const isLastScreen = screenIndex === onboardingSteps.length - 1
+        if (isLastScreen) {
+            endOnboarding();
+
+        } else {
+            setScreenIndex(screenIndex + 1);
+        }
+    };
+
+    const endOnboarding = () => {
+        setScreenIndex(0);
+        router.back();
+    }
+
     return (
         <SafeAreaView style={style.page}>
             <Stack.Screen options={{ headerShown: false }} />
@@ -13,23 +54,22 @@ export default function OnboardingScreen() {
 
                 <FontAwesome5
                     style={style.image}
-                    name="exchange-alt"
+                    name={data.icon}
                     size={100}
                     color="#CEF205"
                 />
                 <View style={style.footer}>
-                    <Text style={style.title}>Track every transaction</Text>
-                    <Text style={style.description}>
-                        Monitor your spending and contribution,
-                        ensuring every penny aligns with your family's
-                        aspirations
-                    </Text>
+                    <Text style={style.title}>{data.title}</Text>
+                    <Text style={style.description}>{data.description}</Text>
 
                     <View style={style.buttonsRow}>
-                        <Text style={style.buttonText}>Skip</Text>
-                        <Pressable style={style.button}>
+                        <Text onPress={endOnboarding} style={style.buttonText}>Skip</Text>
+
+                        <Pressable onPress={onContinue} style={style.button}>
                             <Text style={style.buttonText}>Continue</Text>
                         </Pressable>
+
+
 
                     </View>
 
@@ -76,28 +116,28 @@ const style = StyleSheet.create({
     footer: {
         marginTop: 'auto'
     },
-    button:{
-        backgroundColor:'#302E38',
+    button: {
+        backgroundColor: '#302E38',
         //padding:15,
-        borderRadius:50,
-        alignItems:'center',
-        flex:1
+        borderRadius: 50,
+        alignItems: 'center',
+        flex: 1
 
     },
-    buttonsRow:{
-        marginTop:20,
-        flexDirection:'row',
-        alignItems:'center',
-        gap:20
-        
+    buttonsRow: {
+        marginTop: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 20
+
 
     },
-    buttonText:{
-        color:'#FDFDFD',
-        fontFamily:'InterSemi',
+    buttonText: {
+        color: '#FDFDFD',
+        fontFamily: 'InterSemi',
         fontSize: 16,
-        
-        padding:15,
+
+        padding: 15,
         paddingHorizontal: 25,
 
     }
