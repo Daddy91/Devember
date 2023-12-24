@@ -7,10 +7,10 @@ const DayDetailsScreen = () => {
   return (
     <View>
       <Stack.Screen options={{title: 'Day 2: Onboarding'}} />
-      <Text style={{fontFamily: 'AmaticBold', fontSize: 100}}>Day Details Screen</Text>
+      <Text style={{fontFamily: 'AmaticBold', fontSize: 50}}>Découvrez qui je suis et ce que je fais.</Text>
       
       <Link href="days/day2/onboarding" asChild>
-       <Button  title="Go to onboarding" />
+       <Button  title="C'est parti!" />
       </Link>
     </View>
   )

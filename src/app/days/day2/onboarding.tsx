@@ -28,21 +28,39 @@ import Animated, {
 
 const onboardingSteps = [
     {
-        icon: 'laptop-house',
-        title: 'Bienvenue chez Daddy!',
-        description: `Ici vous pouvez voir quelques projets sur lesquels j'ai travaillé ou sur lesquels je travaille actuellement`,
+        icon: 'connectdevelop',
+        title: 'Bienvenue!',
+        description: `je me présente...`,
+
+    },
+    {
+        icon: 'address-card',
+        title: '#Daddy #Mosanda',
+        description: `Ingénieur logiciel avec une grande passion pour la technologie et la musique. J'aime apprendre des nouvelles choses et être au courant de toutes les nouveautés`
 
     },
     {
         icon: 'book-reader',
         title: 'Apprendre et grandir',
-        description: `J'apprends en développant des projets avec React Native et Expo`,
+        description: `J'aime apprendre par la pratique et développer mes connaissances pour toujours être la meilleure dans ce que je fais`,
 
     },
     {
         icon: 'react',
         title: 'Portfolio React Native',
         description: `Ici, j'expose mes connaissances et compétences en React Native à travers mes différents projets`,
+
+    },
+    {
+        icon: 'briefcase',
+        title: '#Projets',
+        description: `Chaque numéro de case représente un de mes projets avec une petite description de ce qu'il fait et de ce que j'ai utilisé pour le réaliser`,
+
+    },
+    {
+        icon: 'angellist',
+        title: '#Enjoy!!!',
+        description: ``,
 
     },
 
